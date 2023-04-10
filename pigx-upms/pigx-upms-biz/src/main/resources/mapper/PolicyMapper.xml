@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.PolicyMapper">
+    <resultMap type="com.pig4cloud.pigx.admin.api.entity.Policy" id="PolicyMap">
+        <result property="policyId" column="policy_id" jdbcType="INTEGER"/>
+        <result property="policyTitle" column="policy_title" jdbcType="VARCHAR"/>
+        <result property="policyStatus" column="policy_status" jdbcType="INTEGER"/>
+        <result property="sourceOfInfo" column="source_of_info" jdbcType="VARCHAR"/>
+        <result property="policyContent" column="policy_content" jdbcType="VARCHAR"/>
+        <result property="releaseTime" column="release_time" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="delFlag" column="del_flag" jdbcType="VARCHAR"/>
+        <result property="policyType" column="policy_type" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询分页数据-->
+    <select id="queryPageList" resultType="com.pig4cloud.pigx.admin.api.vo.PolicyVO">
+        select policy_id,
+               policy_title,
+               policy_status,
+               source_of_info,
+               policy_content,
+               release_time,
+               create_by,
+               update_by,
+               create_time,
+               update_time,
+               del_flag,
+               policy_type
+        from policy
+        <where>
+            <if test="query.policyTitle != null and query.policyTitle != ''">
+                <bind name="usernameLike" value="'%'+query.policyTitle+'%'"/>
+                AND policy_title LIKE #{usernameLike}
+            </if>
+        </where>
+        ORDER BY release_time DESC
+    </select>
+
+    <!--通过主键查询数据详情-->
+    <select id="queryPolicyVOById" resultType="com.pig4cloud.pigx.admin.api.vo.PolicyVO">
+        select policy_id,
+               policy_title,
+               policy_status,
+               source_of_info,
+               policy_content,
+               release_time,
+               create_by,
+               update_by,
+               create_time,
+               update_time,
+               del_flag,
+               policy_type
+        from policy
+        where policy_id = #{id}
+    </select>
+
+</mapper>
+

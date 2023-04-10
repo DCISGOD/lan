@@ -1,0 +1,69 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /admin
+
+# 配置文件加密根密码
+jasypt:
+  encryptor:
+    password: pigx
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+
+spring:
+  application:
+    name: @project.artifactId@
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  profiles:
+    active: dev,job
+  datasource:
+    driver-class-name:
+# 开启枚举类反序列话处理 开启该处理 可以防止枚举使用下标来取值 关闭该处理可以使用枚举的中文取值
+  jackson:
+    deserialization:
+      read-enums-using-to-string: true
+#    serialization:
+#      write-enums-using-to-string: true
+
+# 端点对外暴露
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    restart:
+      enabled: true
+    health:
+      show-details: ALWAYS
+
+# mybatis-plus 配置
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+      where-strategy: not_empty
+      insert-strategy: not_empty
+      update-strategy: not_null
+  type-handlers-package: com.pig4cloud.pigx.common.data.handler
+  configuration:
+    jdbc-type-for-null: 'null'
+    call-setters-on-nulls: true
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+
+# 验证码配置
+aj:
+  captcha:
+    water-mark: pig4cloud
+
+# 配置swagger 信息覆盖 common-swagger 中内置的
+swagger:
+  enabled: true
+  title: PigX Swagger API
+  token-url: ${swagger.gateway}/admin/oauth2/token
+  scope: server

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.TestMapper">
+    <resultMap type="com.pig4cloud.pigx.admin.api.entity.Test" id="TestMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="age" column="age" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询分页数据-->
+    <select id="queryPageList" resultType="com.pig4cloud.pigx.admin.api.vo.TestVO">
+        select id,
+               name,
+               age
+        from test
+    </select>
+
+    <!--通过主键查询数据详情-->
+    <select id="queryTestVOById" resultType="com.pig4cloud.pigx.admin.api.vo.TestVO">
+        select id,
+               name,
+               age
+        from test
+        where id = #{id}
+    </select>
+
+</mapper>
+
